@@ -1,0 +1,12 @@
+.container{
+  margin: 20px, 5%;
+}
+
+.float-left{
+  float: left;
+}
+
+
+#topbar{
+  text-align: center;
+}

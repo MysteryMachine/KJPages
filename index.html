@@ -1,0 +1,15 @@
+<html lang="en" ng-app="artyKJ">
+  <head>
+    <title> {{ title }} </title>
+    <script type="text/javascript" src="angular.js"></script>
+    <script type="text/javascript" src="artykj.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="artykj.css">
+  </head>
+  <body>
+    <div id="topbar" ng-controller="topbarCtrl">
+      <a ng-repeat="item in topbaritems" src="item.url">{{ item.name }}</a>
+    </div>
+    <div id="container" ng-view></div>
+  </body>
+</html>
