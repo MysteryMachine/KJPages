@@ -1,12 +1,133 @@
-.container{
-  margin: 20px, 5%;
+div#container{
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
 }
 
 .float-left{
   float: left;
 }
 
+.inline{
+  display:inline-block;
+  vertical-align: top;
+}
+
+.center{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+li{
+  text-align: left;
+}
+
+ul{
+  min-width: 220px;
+}
 
 #topbar{
+  text-align: center; 
+}
+
+.list-aligned{
+  text-align: left;
+  padding: 0 40px;
+}
+
+#topbar, p, li, h3{
+  font: 18px courier new;
+  color: #000000;
+  font-weight: bold;
+}
+
+#topbar{
+  padding-bottom: 10px;
+}
+
+span{
+  padding-left: 6px;
+  padding-right: 6px;
+  display:inline-block;
+}
+
+.topbar-item, a{
+  color: #990000;
+  text-decoration: none;
+}
+a.topbar-item:hover, a:hover, a.selected.topbar-item:hover{
+  color: #ffcccc;
+}
+
+a.selected.topbar-item{
+  color: #daa;
+}
+
+a.kj{
+  color: #000000;
+}
+
+a.kj:hover{
+  color: #555;
+}
+
+#about{
+  display:inline-block;
+  width: 100%;
   text-align: center;
+}
+
+#about-text{
+  display:inline-block;
+  text-align: left; 
+  max-width: 300px;
+  padding-right: 10px;
+}
+
+#about-picture-container{
+  display:inline-block;
+  vertical-align: top;
+}
+
+#about-picture{
+  max-height: 581px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+p{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#comic, #print{
+  position: absolute;
+  height: auto;
+  top: 100px;
+  max-width: 50%;
+  left: 25%
+}
+
+#select{
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+#next, #prev{
+  width: 10%;
+  height: auto;
+  position: absolute;
+  top: 40%;
+}
+
+#next{
+  left: 80%;
+}
+
+#prev{
+  left: 10%;
 }

@@ -2,10 +2,19 @@ app = angular.module("artyKJ", ['ngRoute']).config(['$routeProvider', '$location
   $routeProvider.when('/', {
     templateUrl: 'comics.html',
     controller: 'comicsCtrl'
-  }).when('/comics/:name/:pg_num', {
+  }).when('/comics/:comic', {
+    templateUrl: 'comics.html',
+    controller: 'comicsCtrl'
+  }).when('/comics', {
+    templateUrl: 'comics.html',
+    controller: 'comicsCtrl'
+  }).when('/comics/:comic/:pg', {
     templateUrl: 'comics.html',
     controller: 'comicsCtrl'
   }).when('/prints/:name', {
+    templateUrl: 'prints.html',
+    controller: 'printsCtrl'
+  }).when('/prints', {
     templateUrl: 'prints.html',
     controller: 'printsCtrl'
   }).when('/links', {
@@ -13,36 +22,87 @@ app = angular.module("artyKJ", ['ngRoute']).config(['$routeProvider', '$location
     controller: 'linksCtrl'
   }).when('/about', {
     templateUrl: 'about.html',
-    controller: 'aboutCrl'
-  }).otherwise({
-    redirectTo: '/'
-  });;
-
-  $locationProvider.html5Mode(true);
+    controller: 'aboutCtrl'
+  });
 }]);
 
-app.controller('topbarCtrl', ['$scope', function($scope){
-  $scope.topbaritems = 
-  [{ name: "kj martinet", url: "/home" },
-  { name: "comics", url: "/comics" },
-  { name: "prints", url: "/prints" },
-  { name: "about", url: "/about" },
-  { name: "links", url: "/links" },
+var topbarItems = 
+  [{ name: "kj martinet", url:"/no_fucks/#/" },
+  { name: "comics", url: "/no_fucks/#/comics" },
+  { name: "prints", url: "/no_fucks/#/prints" },
+  { name: "about", url: "/no_fucks/#/about" },
+  { name: "links", url: "/no_fucks/#/links" },
   { name: "tumblr", url: "http://kjmartinet.tumblr.com/" },
   { name: "store", url: "http://kjmartinet.bigcartel.com/" }];
-}]);
 
-app.controller('comicsCtrl', ['$routeParams', '$scope', function($routeParams, $scope){
+app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', function($routeParams, $location, $scope){
   $scope.title = $routeParams.name || "Comics";
-  $scope.data = [ {name: "islands", title: "Islands", pages: 37},                 
-    { name: "fourhorsemenAndAPomegranate", title:"Fourhorsemen and a Pomegranate", pages: 6}, 
-    { name: "aeolianProcess", title: "Æolian Process", pages: 17},
-    { name: "idealForm", title: "Ideal Form", pages: 6 },
-    { name: "forRightNow", title: "For Right Now", pages: 6 },
-    { name: "aristophanesAndPenthesilea", title: "Aristophanes and Penthesilea", pages: 14}];
+  $scope.data = [ 
+    { id: 0, name: "islands", pages: 37 ,  title: "Islands"},                 
+    { id: 1, name: "fourhorsemenAndAPomegranate", pages: 6, title:"Fourhorsemen and a Pomegranate"}, 
+    { id: 2, name: "aeolianProcess", pages: 17,  title: "Æolian Process"},
+    { id: 3, name: "idealForm", pages: 6, title: "Ideal Form"},
+    { id: 4, name: "forRightNow", pages: 6,  title: "For Right Now" },
+    { id: 5, name: "aristophanesAndPenthesilea", pages: 14,  title: "Aristophanes and Penthesilea"}];
+  $scope.topbaritems = topbarItems;
+  $scope.parseUrlForComicName = function(){
+    if($routeParams.comic){
+      return $routeParams.comic;
+    }
+    else{
+      return $scope.data[0].name;
+    }
+  };
+  $scope.parseUrlForPage = function(){
+    if($routeParams.pg){
+      return $routeParams.pg;
+    }
+    else{
+      return 1;
+    }
+  };
+  $scope.getPgStr = function(num){
+    if(num < 10){
+      return "00" + num;
+    }
+    else if(num < 100){
+      return "0" + num;
+    }
+    else{
+      return num;
+    }
+  };
+  $scope.setComicImage = function(){
+    $scope.image = "http://kjmartinet.com/comics/" + $scope.comic.name + "/" + $scope.getPgStr($scope.page) + ".jpg"
+  };
+  $scope.getComic = function(){
+    $location.path("/comics/" + $scope.comic.name + "/" + "001")
+  };
+
+  $scope.getIdFromComicName = function(arg){
+    for(var i = 0; i < $scope.data.length; i++){
+      if($scope.data[i].name === arg){
+        return i;
+      }
+    }
+  }
+
+  $scope.comic = $scope.data[$scope.getIdFromComicName($scope.parseUrlForComicName())];
+  $scope.page = parseInt($scope.parseUrlForPage());
+
+  var ngforwardUrl = "/comics/" + $scope.comic.name + "/" + $scope.getPgStr($scope.page + 1);
+  var ngbackUrl = "/comics/" + $scope.comic.name + "/" + $scope.getPgStr($scope.page - 1);
+  $scope.forwardUrl = "#" + ngforwardUrl;
+  $scope.backUrl = "#" + ngbackUrl;
+  $scope.forward = function(){ $location.path(ngforwardUrl)};
+  $scope.back = function(){ $location.path(ngbackUrl)};
+
+  
+  $scope.setComicImage();
 }]);
 
-app.controller('$routeParams', 'printsCtrl', ['$scope', function($routeParams, $scope){
+app.controller('printsCtrl', ['$routeParams', '$location', '$scope', function($routeParams, $location, $scope){
+  $scope.topbaritems = topbarItems;
   $scope.title = $routeParams.name || "Prints";
   $scope.data = [{ name: "rainbowconnection", title: "Rainbow Connection"}, 
     { name: "strepthroat", title: "You Can Touch But You Can't Feel"},
@@ -52,50 +112,51 @@ app.controller('$routeParams', 'printsCtrl', ['$scope', function($routeParams, $
     { name: "theplay", title: "The Play's the Thing"},
     { name: "iamnot", title: "I Am Not What I Am"},
     { name: "wordswordswords", title: "Words, Words, Words"}];
-  $scope.getCurrent = function(){
-    for(var i = 0; i < $scope.data.length; i++)
-    {
-      if($scope.data[i].name == $routeParams.name)
-        return $scope.data[i];
+  $scope.getPrint = function(){
+    $location.path("/prints/" + $scope.print.name)
+  }
+  $scope.parseUrlForPrintName = function(){
+    if($routeParams.name){
+      return $routeParams.name;
     }
-    return $scope.data[0];
+    else{
+      return $scope.data[0].name;
+    }
+  };
+  $scope.setPrintImage = function(){
+    $scope.image = "http://kjmartinet.com/prints/" + $scope.print.name + ".jpg"
   };
 
-  $scope.current = $scope.getCurrent();
-  $scope.pgNum = $routeParams.page_num || 1;
-  $scope.image = $scope.loadImage();
-  $scope.back = function(){
-    if($scope.current == {} || $scope.pgNum == 1)
-      return;
-    else{
-      $scope.pgNum--;
-      $scope.image = $scope.loadImage();
+  $scope.getPgFromPrintName = function(arg){
+    for(var i = 0; i < $scope.data.length; i++){
+      if($scope.data[i].name === arg){
+        return i;
+      }
     }
-  };
-  $scope.forward = function(){
-    if($scope.current == {} || $scope.pgNum == $scope.current.page_num)
-      return;
-    else{
-      $scope.pgNum++;
-      $scope.image = $scope.loadImage();
-    }
-  };
-  $scope.loadImage = function(){
-    var name = "/comics/" + $scope.current.name + "/";
-    if($scope.pgNum < 10)
-      return name + "00" + $scope.pgNum;
-    else if($scope.pgNum < 100)
-      return name + "0" + $scope.pgNum;
-    else
-      return name + $scope.pgNum;
-  };
+  }
+  $scope.pg = $scope.getPgFromPrintName($scope.parseUrlForPrintName());
+  $scope.print = $scope.data[$scope.pg];
+  var ngbackUrl = "";
+  if($scope.pg > 0){
+    var ngbackUrl = "/prints/" + $scope.data[$scope.pg - 1].name;
+  }
+  if($scope.pg + 1 < $scope.data.length)
+    var ngforwardUrl = "/prints/" + $scope.data[$scope.pg + 1].name;
+  $scope.forwardUrl = "#" + ngforwardUrl;
+  $scope.backUrl = "#" + ngbackUrl;
+  $scope.forward = function(){ $location.path(ngforwardUrl)};
+  $scope.back = function(){ $location.path(ngbackUrl)};
+  
+  $scope.setPrintImage();
 }]);
 
 app.controller('aboutCtrl', ['$scope', function($scope){
+  $scope.topbaritems = topbarItems;
   $scope.title = "About Me";
 }]);
 
 app.controller('linksCtrl', ['$scope', function($scope){
+  $scope.topbaritems = topbarItems;
   $scope.title = "Links"
   $scope.friends = 
     [{ name: "Tim Beckhardt", url: "" }, 
@@ -123,10 +184,35 @@ app.controller('linksCtrl', ['$scope', function($scope){
     { name: "Gowanus Print Lab", url: "" },
     { name: "Happiness Comix", url: "" },
     { name: "kus! komiksi", url: "" },
-    { name: "Throat ArtCollective Stench", url: "" },
+    { name: "Throat Art", url: "" },
+    { name: "Collective Stench", url: "" },
     { name: "Dimensions Comics", url: "" },
     { name: "Gowanus Print Lab", url: "" },
     { name: "Happiness Comix", url: "" },
     { name: "kus! komiksi", url: "" },
     { name: "Throat Art", url: "" }];
-}]);  
+}]); 
+
+app.directive('topbarItems', function(){
+  return{
+    restrict: 'E',
+    scope: { 
+      item: "=",
+      pgName: "@"
+    },
+    link: function(scope){
+      scope.getClass = function(){
+        if(scope.item.name === "kj martinet"){
+          return "kj"
+        }
+        else if(scope.pgName === scope.item.name){
+          return "selected topbar-item"
+        }
+        else{
+          return "topbar-item"
+        }
+      }
+    },
+    templateUrl: "topbar-item.html"
+  }
+});

@@ -1,6 +1,10 @@
+<div id="topbar">
+  <topbar-items ng-repeat="item in topbaritems" item="item" pg-name="comics"></topbar-items>
+</div>
 <div class="comics-viewer">
-  <img src="{{image}}" class="panel"></img>
-  <a><img src="back" ng-click="back()"></img><a> 
-  <select ng-model="current" ng-options="title for name in data">
-  <a><img src="forward" ng-click="forward()"></img><a>
+  <div id="back-div"><a href="{{backUrl}}"> <img id="prev" src="../previous.png" ng-show="(page - 1) > 0" ng-click="back()"></img></a></div>
+  <a href="{{forwardUrl}}" ng-click="forward()"><img id="comic"  src="{{image}}" class="panel"></img></a>
+  <div id="forward-div"><a href="{{forwardUrl}}" ng-click="forward()"><img id="next" src="../next.png" ng-show="(page + 1) <= comic.pages"></img></a></div>
+
+  <div id="select"><select ng-model="comic" ng-options="obj.title for obj in data" ng-change="getComic()"></select></div>
 </div>

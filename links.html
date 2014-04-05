@@ -1,15 +1,22 @@
-<div id="friends">
-  <ul>
-    <li ng-repeat="friend in friends">
-      <a href="friend.url">{{friend.name}}</a>
-    </li>
-  </ul>
+<div id="topbar">
+  <topbar-items ng-repeat="item in topbaritems" item="item" pg-name="links"></topbar-items>
 </div>
+  <div class="center">
+  <div class="inline" id="friends">
+    <h3 class="list-aligned"> Friends </h3>
+    <ul>
+      <li ng-repeat="friend in friends">
+        <a href="friend.url">{{friend.name}}</a>
+      </li>
+    </ul>
+  </div>
 
-<div id="associates">
-  <ul>
-    <li ng-repeat="associate in associatess">
-      <a href="associate.url">{{associate.name}}</a>
-    </li>
-  </ul>
+  <div id="associates" class="inline">
+    <h3 class="list-aligned"> Associates </h3>
+    <ul class="center">
+      <li ng-repeat="associate in associates">
+        <a href="associate.url">{{associate.name}}</a>
+      </li>
+    </ul>
+  </div>
 </div>
