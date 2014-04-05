@@ -107,8 +107,12 @@ p{
   position: absolute;
   height: auto;
   top: 100px;
+  width: 50%;
   max-width: 50%;
-  left: 25%
+  left: 25%;
+  border-color: #EEE;
+  border-width: 1px;
+  border-style: solid;
 }
 
 #select{
@@ -120,7 +124,7 @@ p{
 #next, #prev{
   width: 10%;
   height: auto;
-  position: absolute;
+  position: fixed;
   top: 40%;
 }
 
@@ -130,4 +134,14 @@ p{
 
 #prev{
   left: 10%;
+}
+
+select{
+  border-style: solid;
+  border-color: #EEE;
+  border-radius: 2px;
+  padding: 2px;
+  background-color: #FFF;
+  margin: 4px;
+  color: #444;
 }

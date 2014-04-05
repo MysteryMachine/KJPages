@@ -35,8 +35,7 @@ var topbarItems =
   { name: "tumblr", url: "http://kjmartinet.tumblr.com/" },
   { name: "store", url: "http://kjmartinet.bigcartel.com/" }];
 
-app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', function($routeParams, $location, $scope){
-  $scope.title = $routeParams.name || "Comics";
+app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', '$rootScope', function($routeParams, $location, $scope, $rootScope){
   $scope.data = [ 
     { id: 0, name: "islands", pages: 37 ,  title: "Islands"},                 
     { id: 1, name: "fourhorsemenAndAPomegranate", pages: 6, title:"Fourhorsemen and a Pomegranate"}, 
@@ -88,6 +87,12 @@ app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', function($r
   }
 
   $scope.comic = $scope.data[$scope.getIdFromComicName($scope.parseUrlForComicName())];
+  if($routeParams.comic){
+    $rootScope.title =  $scope.comic.title;
+  }
+  else{
+    $rootScope.title = 'Comics'
+  }
   $scope.page = parseInt($scope.parseUrlForPage());
 
   var ngforwardUrl = "/comics/" + $scope.comic.name + "/" + $scope.getPgStr($scope.page + 1);
@@ -97,13 +102,11 @@ app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', function($r
   $scope.forward = function(){ $location.path(ngforwardUrl)};
   $scope.back = function(){ $location.path(ngbackUrl)};
 
-  
   $scope.setComicImage();
 }]);
 
-app.controller('printsCtrl', ['$routeParams', '$location', '$scope', function($routeParams, $location, $scope){
+app.controller('printsCtrl', ['$routeParams', '$location', '$scope', '$rootScope', function($routeParams, $location, $scope, $rootScope){
   $scope.topbaritems = topbarItems;
-  $scope.title = $routeParams.name || "Prints";
   $scope.data = [{ name: "rainbowconnection", title: "Rainbow Connection"}, 
     { name: "strepthroat", title: "You Can Touch But You Can't Feel"},
     { name: "monstersong", title: "Monster Song"}, 
@@ -136,6 +139,13 @@ app.controller('printsCtrl', ['$routeParams', '$location', '$scope', function($r
   }
   $scope.pg = $scope.getPgFromPrintName($scope.parseUrlForPrintName());
   $scope.print = $scope.data[$scope.pg];
+  if($routeParams.name){
+    $rootScope.title =  $scope.print.title;
+  }
+  else{
+    $rootScope.title = 'Prints'
+  }
+  
   var ngbackUrl = "";
   if($scope.pg > 0){
     var ngbackUrl = "/prints/" + $scope.data[$scope.pg - 1].name;
@@ -150,14 +160,14 @@ app.controller('printsCtrl', ['$routeParams', '$location', '$scope', function($r
   $scope.setPrintImage();
 }]);
 
-app.controller('aboutCtrl', ['$scope', function($scope){
+app.controller('aboutCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
   $scope.topbaritems = topbarItems;
-  $scope.title = "About Me";
+  $rootScope.title = "About Me";
 }]);
 
-app.controller('linksCtrl', ['$scope', function($scope){
+app.controller('linksCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
   $scope.topbaritems = topbarItems;
-  $scope.title = "Links"
+  $rootScope.title = "Links"
   $scope.friends = 
     [{ name: "Tim Beckhardt", url: "" }, 
     { name: "Heather Benjamin", url: "" },
