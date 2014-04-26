@@ -103,13 +103,16 @@ p{
   margin-bottom: 0px;
 }
 
-#comic, #print{
+#comic, #print, #illustration{
   position: absolute;
   height: auto;
   top: 100px;
   width: 50%;
   max-width: 50%;
   left: 25%;
+}
+
+#comic{
   border-color: #EEE;
   border-width: 1px;
   border-style: solid;

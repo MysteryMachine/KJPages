@@ -1,10 +1,10 @@
 <div id="topbar">
-  <topbar-items ng-repeat="item in topbaritems" item="item" pg-name="prints"></topbar-items>
+  <topbar-items ng-repeat="item in topbaritems" item="item" pg-name="illustration"></topbar-items>
 </div>
 <div class="prints-viewer">
   <div id="back-div"><a href="{{backUrl}}"> <img id="prev" src="../previous.png" ng-show="(pg - 1) >= 0" ng-click="back()"></img></a></div>
-  <a href="{{forwardUrl}}" ng-click="forward()"><img id="print"  src="{{image}}" class="panel"></img></a>
+  <a href="{{forwardUrl}}" ng-click="forward()"><img id="illustration"  src="{{image}}" class="panel"></img></a>
   <div id="back-div"><a href="{{forwardUrl}}" ng-click="forward()"><img id="next" src="../next.png" ng-show="(pg + 1) < data.length"></img></a></div>
 
-  <div id="select"><select ng-model="print" ng-options="obj.title for obj in data" ng-change="getPrint()"></select></div>
+  <div id="select"><select ng-model="illustration" ng-options="obj.title for obj in data" ng-change="getIllus()"></select></div>
 </div>

@@ -1,7 +1,13 @@
 app = angular.module("artyKJ", ['ngRoute']).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
   $routeProvider.when('/', {
-    templateUrl: 'comics.html',
-    controller: 'comicsCtrl'
+    templateUrl: 'illustration.html',
+    controller: 'illusCtrl'
+  }).when('/illustration/:name', {
+    templateUrl: 'illustration.html',
+    controller: 'illusCtrl'
+  }).when('/illustration', {
+    templateUrl: 'illustration.html',
+    controller: 'illusCtrl'
   }).when('/comics/:comic', {
     templateUrl: 'comics.html',
     controller: 'comicsCtrl'
@@ -27,19 +33,68 @@ app = angular.module("artyKJ", ['ngRoute']).config(['$routeProvider', '$location
 }]);
 
 var topbarItems = 
-  [{ name: "kj martinet", url:"/no_fucks/#/" },
-  { name: "comics", url: "/no_fucks/#/comics" },
-  { name: "prints", url: "/no_fucks/#/prints" },
-  { name: "about", url: "/no_fucks/#/about" },
-  { name: "links", url: "/no_fucks/#/links" },
+  [{ name: "kj martinet", url:"/#/" },
+  { name: "illustration", url: "/#/illustration" },
+  { name: "comics", url: "/#/comics" },
+  { name: "prints", url: "/#/prints" },
+  { name: "about", url: "/#/about" },
+  { name: "links", url: "/#/links" },
   { name: "tumblr", url: "http://kjmartinet.tumblr.com/" },
   { name: "store", url: "http://kjmartinet.bigcartel.com/" }];
+  
+app.controller('illusCtrl', ['$routeParams', '$location', '$scope', '$rootScope', function($routeParams, $location, $scope, $rootScope){
+  $scope.topbaritems = topbarItems;
+  $scope.data = [{ name: "", title: ""}];
+  $scope.getIllus = function(){
+    $location.path("/illustration/" + $scope.illustration.name)
+  }
+  $scope.parseUrlForIllusName = function(){
+    if($routeParams.name){
+      return $routeParams.name;
+    }
+    else{
+      return $scope.data[0].name;
+    }
+  };
+  $scope.setIllusImage = function(){
+    $scope.image = "http://kjmartinet.com/illustration/" + $scope.illustration.name + ".jpg"
+  };
+
+  $scope.getPgFromIllusName = function(arg){
+    for(var i = 0; i < $scope.data.length; i++){
+      if($scope.data[i].name === arg){
+        return i;
+      }
+    }
+  }
+  $scope.pg = $scope.getPgFromIllusName($scope.parseUrlForIllusName());
+  $scope.illustration = $scope.data[$scope.pg];
+  if($routeParams.name){
+    $rootScope.title =  $scope.illustration.title;
+  }
+  else{
+    $rootScope.title = 'Illustration'
+  }
+
+  var ngbackUrl = "";
+  if($scope.pg > 0){
+    var ngbackUrl = "/illustration/" + $scope.data[$scope.pg - 1].name;
+  }
+  if($scope.pg + 1 < $scope.data.length)
+    var ngforwardUrl = "/illustration/" + $scope.data[$scope.pg + 1].name;
+  $scope.forwardUrl = "#" + ngforwardUrl;
+  $scope.backUrl = "#" + ngbackUrl;
+  $scope.forward = function(){ $location.path(ngforwardUrl)};
+  $scope.back = function(){ $location.path(ngbackUrl)};
+
+  $scope.setIllusImage();
+}]);
 
 app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', '$rootScope', function($routeParams, $location, $scope, $rootScope){
   $scope.data = [ 
     { id: 0, name: "islands", pages: 37 ,  title: "Islands"},                 
     { id: 1, name: "fourhorsemenAndAPomegranate", pages: 6, title:"Fourhorsemen and a Pomegranate"}, 
-    { id: 2, name: "aeolianProcess", pages: 17,  title: "Æolian Process"},
+    { id: 2, name: "aeolianProcess", pages: 17,  title: "Aeolian Process"},
     { id: 3, name: "idealForm", pages: 6, title: "Ideal Form"},
     { id: 4, name: "forRightNow", pages: 6,  title: "For Right Now" },
     { id: 5, name: "aristophanesAndPenthesilea", pages: 14,  title: "Aristophanes and Penthesilea"}];
@@ -107,11 +162,13 @@ app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', '$rootScope
 
 app.controller('printsCtrl', ['$routeParams', '$location', '$scope', '$rootScope', function($routeParams, $location, $scope, $rootScope){
   $scope.topbaritems = topbarItems;
-  $scope.data = [{ name: "rainbowconnection", title: "Rainbow Connection"}, 
-    { name: "strepthroat", title: "You Can Touch But You Can't Feel"},
+  $scope.data = [
+    { name: "selfportraitwithcorgs", title: "Self Portrait with Corgs"},
+    { name: "longpork", title: "Long Pork"},
+    { name: "rainbowconnection", title: "Rainbow Connection"}, 
     { name: "monstersong", title: "Monster Song"}, 
     { name: "laydown", title: "Lay Down Your Burden"}, 
-    { name: "kussebisse", title: "Küsse, Bisse, das Reimt Sich"},
+    { name: "kussebisse", title: "Kusse, Bisse, das Reimt Sich"},
     { name: "theplay", title: "The Play's the Thing"},
     { name: "iamnot", title: "I Am Not What I Am"},
     { name: "wordswordswords", title: "Words, Words, Words"}];
