@@ -112,6 +112,11 @@ p{
   left: 25%;
 }
 
+#img{
+  width: 100%;
+  max-width: 100%;
+}
+
 #comic{
   border-color: #EEE;
   border-width: 1px;
@@ -147,4 +152,22 @@ select{
   background-color: #FFF;
   margin: 4px;
   color: #444;
+}
+
+.titleText{
+  font: 18px courier new;
+  font-style:italic;
+  text-align: center;
+}
+
+.info{
+  text-align: center;
+  width: 100%;
+}
+
+.mediumText, .dateText{
+  font: 18px courier new;
+  display: inline-block;
+  padding-left: 4px;
+  padding-right: 4px;
 }

@@ -44,7 +44,14 @@ var topbarItems =
   
 app.controller('illusCtrl', ['$routeParams', '$location', '$scope', '$rootScope', function($routeParams, $location, $scope, $rootScope){
   $scope.topbaritems = topbarItems;
-  $scope.data = [{ name: "", title: ""}];
+  $scope.data = [
+  { name: "sauce", title: "Sauce", medium: "Ink and Digital", date: "2013"},
+  { name: "kushanakurotowa", title: "Ghibli Jam: Kushana and Kurotowa", medium: "Ink, China Marker, and Digital", date: "2014"},
+  { name: "opheliaWeb", title: "Ophelia", medium: "Ink and Digital", date: "2014"},
+  { name: "laviniaWebFinal", title: "Lavinia", medium: "Ink and Digital", date: "2013"},
+  { name: "cordeliaWeb", title: "Cordelia", medium: "Ink and Digital", date: "2014"},
+  { name: "ladymacWeb", title: "Lady Macbeth", medium: "Ink and Digital", date: "2014"},
+  ];
   $scope.getIllus = function(){
     $location.path("/illustration/" + $scope.illustration.name)
   }
@@ -71,6 +78,9 @@ app.controller('illusCtrl', ['$routeParams', '$location', '$scope', '$rootScope'
   $scope.illustration = $scope.data[$scope.pg];
   if($routeParams.name){
     $rootScope.title =  $scope.illustration.title;
+  }
+  else if($location.path() === "/"){
+    $rootScope.title = 'KJ Martinet'
   }
   else{
     $rootScope.title = 'Illustration'
@@ -140,7 +150,7 @@ app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', '$rootScope
       }
     }
   }
-
+  
   $scope.comic = $scope.data[$scope.getIdFromComicName($scope.parseUrlForComicName())];
   if($routeParams.comic){
     $rootScope.title =  $scope.comic.title;
@@ -163,15 +173,15 @@ app.controller('comicsCtrl', ['$routeParams', '$location', '$scope', '$rootScope
 app.controller('printsCtrl', ['$routeParams', '$location', '$scope', '$rootScope', function($routeParams, $location, $scope, $rootScope){
   $scope.topbaritems = topbarItems;
   $scope.data = [
-    { name: "selfportraitwithcorgs", title: "Self Portrait with Corgs"},
-    { name: "longpork", title: "Long Pork"},
-    { name: "rainbowconnection", title: "Rainbow Connection"}, 
-    { name: "monstersong", title: "Monster Song"}, 
-    { name: "laydown", title: "Lay Down Your Burden"}, 
-    { name: "kussebisse", title: "Kusse, Bisse, das Reimt Sich"},
-    { name: "theplay", title: "The Play's the Thing"},
-    { name: "iamnot", title: "I Am Not What I Am"},
-    { name: "wordswordswords", title: "Words, Words, Words"}];
+    { name: "selfportraitwithcorgs", title: "Self Portrait with Corgs", medium: "Silkscreen", date: "2013"},
+    { name: "longpork", title: "Long Pork", medium: "Silkscreen", date: "2013"},
+    { name: "rainbowconnection", title: "Rainbow Connection", medium: "Silkscreen", date: "2012"}, 
+    { name: "monstersong", title: "Monster Song", medium: "Silkscreen", date: "2010"}, 
+    { name: "laydown", title: "Lay Down Your Burden", medium: "Silkscreen", date: "2010"}, 
+    { name: "kussebisse", title: "Kusse, Bisse, das Reimt Sich", medium: "Silkscreen", date: "2010"},
+    { name: "theplay", title: "The Play's the Thing", medium: "Silkscreen", date: "2009"},
+    { name: "iamnot", title: "I Am Not What I Am", medium: "Silkscreen", date: "2009"},
+    { name: "wordswordswords", title: "Words, Words, Words", medium: "Silkscreen", date: "2009"}];
   $scope.getPrint = function(){
     $location.path("/prints/" + $scope.print.name)
   }

@@ -3,7 +3,16 @@
 </div>
 <div class="prints-viewer">
   <div id="back-div"><a href="{{backUrl}}"> <img id="prev" src="../previous.png" ng-show="(pg - 1) >= 0" ng-click="back()"></img></a></div>
-  <a href="{{forwardUrl}}" ng-click="forward()"><img id="print"  src="{{image}}" class="panel"></img></a>
+  <div id="print">
+    <a href="{{forwardUrl}}" ng-click="forward()">
+      <img id="img" src="{{image}}" class="panel"></img>
+    </a>
+    <div class="titleText"> {{print.title}} </div>
+    <div class="info">
+      <span class="mediumText">{{print.medium}}</span>
+      <span class="dateText">{{print.date}}</span>
+    </div>
+  </div>
   <div id="back-div"><a href="{{forwardUrl}}" ng-click="forward()"><img id="next" src="../next.png" ng-show="(pg + 1) < data.length"></img></a></div>
 
   <div id="select"><select ng-model="print" ng-options="obj.title for obj in data" ng-change="getPrint()"></select></div>

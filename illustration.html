@@ -3,7 +3,16 @@
 </div>
 <div class="prints-viewer">
   <div id="back-div"><a href="{{backUrl}}"> <img id="prev" src="../previous.png" ng-show="(pg - 1) >= 0" ng-click="back()"></img></a></div>
-  <a href="{{forwardUrl}}" ng-click="forward()"><img id="illustration"  src="{{image}}" class="panel"></img></a>
+  <div id="illustration">
+    <a href="{{forwardUrl}}" ng-click="forward()">
+      <img id="img" src="{{image}}" class="panel"></img>
+    </a>
+    <div class="titleText"> {{illustration.title}} </div>
+    <div class="info">
+      <span class="mediumText">{{illustration.medium}}</span>
+      <span class="dateText">{{illustration.date}}</span>
+    </div>
+  </div>
   <div id="back-div"><a href="{{forwardUrl}}" ng-click="forward()"><img id="next" src="../next.png" ng-show="(pg + 1) < data.length"></img></a></div>
 
   <div id="select"><select ng-model="illustration" ng-options="obj.title for obj in data" ng-change="getIllus()"></select></div>
